@@ -1,0 +1,355 @@
+<script>
+    import { onMount } from 'svelte';
+    import { fade } from 'svelte/transition';
+    import Scroller from "@sveltejs/svelte-scroller";
+  
+    let count, index, offset, progress;
+    index = 0;
+    let width, height;
+  
+    let visualizations_hidden = true;
+    $: {
+      if (index === 0 || index > sections.length) {
+        visualizations_hidden = true;
+      } else if (offset > .6) {
+        visualizations_hidden = false;
+      }
+    }
+  
+    let sections = [
+      //you can copy and paste this first section multiple times for each project
+        {
+            title: 'About Me: Connie Chiang',
+            type: 'title',
+            //SO MAKE THIS SHORTER
+            interest: `So, when I'm not buried in textbooks or coding, you'll often find me diving into my passions. Fashion is my creative outlet; it's where I get to express myself through colors, styles, and textures. Oh, and weight lifting? It's not just about building muscle; it's about feeling strong, empowered, and capable. And who doesn't love a good shopping spree? It's my guilty pleasure, uncovering unique finds and treating myself every now and then. Now, makeup? That's my art. I love playing with different looks, experimenting with colors, and embracing my ever-changing canvas. Cooking is another love of mine; it's where I find joy in creating delicious dishes and sharing meals with loved ones. And of course, nothing beats hanging out with friends, laughing until our stomachs hurt, and making unforgettable memories. Oh, and let's not forget my furry friend! Walking and playing with my dog brings me so much happiness and reminds me to enjoy life's simple pleasures.`,
+            content: `Hi! I'm Connie Chiang, a third-year Cognitive Science Major with a specialization in Machine Learning. I have a keen interest in understanding how the mind works and leveraging technology to enhance cognitive processes. Currently seeking internship, research, and job opportunities in the field of Machine Learning, I'm passionate about applying theoretical knowledge to real-world problems and making meaningful contributions to the industry.`,
+            experience: `My professional journey thus far has led me to the realm of a pharmacy technician. A role brimming with responsibilities, from assisting pharmacists in dispensing medications to ensuring seamless operations and impeccable customer service. Collaborating with healthcare professionals, I've honed my attention to detail and communication prowess, fostering an environment of efficiency and patient-centric care. It's been a gratifying experience, contributing to the well-being of others while embracing the nuances of teamwork and service excellence.`,
+            // imageURL: 'YOURPICTURE.png'
+        },
+        {
+            title: 'yap',
+            content: `yap`,
+            // imageUrl: 'YOUR_IMAGE_HERE.png', insert your image link after you put it in STATIC folder
+            imageClass: 'project-image',
+            projTitle: 'Check out my "REPLACE WITH PROJECT TITLE" here!',
+            id: 'project1',
+            technologies: 'Technologies used: yap',
+            link: 'https://keenans04.github.io/RecipesAndRatings/' //link to your repo it might be private if its private then just make a website for it similar to the link i have there rn 
+        },
+        //see how the id is project2
+        {
+            title: 'yap',
+            content: `yap`,
+            // imageUrl: 'YOUR_IMAGE_HERE.png', 
+            imageClass: 'project-image',
+            projTitle: 'Check out my "REPLACE WITH PROJECT TITLE" here!',
+            id: 'project2',
+            technologies: 'Technologies used: yap',
+            link: 'https://keenans04.github.io/RecipesAndRatings/'
+        },
+        {
+            title: 'Contact Me',
+            type: 'contact',
+            content: `Thanks for checking my website out. If you're interested in discussing potential collaborations, job opportunities, or have any inquiries, I'm just a message away. Feel free to reach out through any of the following methods:`,
+            contactMethods: [
+                { name: 'Email', icon: 'fas fa-envelope', link: 'mailto:cychiang@ucsd.edu' },
+                { name: 'LinkedIn', icon: 'fab fa-linkedin', link: 'https://www.linkedin.com/in/conniechiang3/' },
+                { name: 'GitHub', icon: 'fab fa-github', link: 'https://github.com/connie-chiang' },
+                // Add your resume here and then delete this line and uncomment the line underneath
+                // { name: 'Resume', icon: 'fas fa-file-text-o', link: 'YOURRESUMEHERE.pdf' },
+            ]
+        }
+    ];
+  
+  </script>
+  
+  <Scroller
+    top={0.0}
+    bottom={1}
+    threshold={1}
+    bind:count
+    bind:index
+    bind:offset
+    bind:progress
+  >
+    <div class="background" slot="background" bind:clientWidth={width} bind:clientHeight={height}>
+      <div style="transition: opacity 0.5s; opacity: {visualizations_hidden ? 0 : 1}">
+      </div>
+    </div>
+      
+    <div class="foreground" slot="foreground">
+        <!-- <section id="about-me" class="hero">
+            <h1 class="name" >Connie Chiang: About Me</h1>
+            <div class="about-me-grid">
+                <div class="about-me-column">
+                    <h2>Interests and Hobbies</h2>
+                    <p>So, when I'm not buried in textbooks or coding, you'll often find me diving into my passions. Fashion is my creative outlet; it's where I get to express myself through colors, styles, and textures. Oh, and weight lifting? It's not just about building muscle; it's about feeling strong, empowered, and capable. And who doesn't love a good shopping spree? It's my guilty pleasure, uncovering unique finds and treating myself every now and then. Now, makeup? That's my art. I love playing with different looks, experimenting with colors, and embracing my ever-changing canvas. Cooking is another love of mine; it's where I find joy in creating delicious dishes and sharing meals with loved ones. And of course, nothing beats hanging out with friends, laughing until our stomachs hurt, and making unforgettable memories. Oh, and let's not forget my furry friend! Walking and playing with my dog brings me so much happiness and reminds me to enjoy life's simple pleasures.</p>
+                </div>
+                <div class="about-me-column">
+                    <h2>About Me</h2>
+                    <p>Hi! I'm Connie Chiang, a third-year Cognitive Science Major with a specialization in Machine Learning. I have a keen interest in understanding how the mind works and leveraging technology to enhance cognitive processes. Currently seeking internship, research, and job opportunities in the field of Machine Learning, I'm passionate about applying theoretical knowledge to real-world problems and making meaningful contributions to the industry.</p>
+                    <img class="me" src="YOUR_IMAGE_HERE.png" alt="Connie Chiang">
+                    <p>Scroll more to check out my projects!</p>
+                </div>
+                <div class="about-me-column">
+                    <h2>Experiences</h2>
+                    <p>My professional journey thus far has led me to the realm of a pharmacy technician. A role brimming with responsibilities, from assisting pharmacists in dispensing medications to ensuring seamless operations and impeccable customer service. Collaborating with healthcare professionals, I've honed my attention to detail and communication prowess, fostering an environment of efficiency and patient-centric care. It's been a gratifying experience, contributing to the well-being of others while embracing the nuances of teamwork and service excellence.</p>
+                </div>
+            </div>
+        </section> -->
+        {#each sections as section, i}
+        <section class="scrollable-section">
+          {#if section.type === 'title'}
+            {#if i === index}
+                  <div class="hero" id ='about-me' in:fade={{duration: 400}} out:fade={{duration: 500}}>
+                      <h1 class='name'>{section.title}</h1>
+                      <div class="about-me-grid">
+                        <div class="about-me-column">
+                            <h2>Interests and Hobbies</h2>
+                            <p>{section.interest}</p>
+                        </div>
+                        <div class="about-me-column">
+                            <h2>About Me</h2>
+                            <p>{section.content}</p>
+                            <img class="me" src={section.imageUrl} alt="Connie Chiang">
+                        </div>
+                        <div class="about-me-column">
+                            <h2>Experiences</h2>
+                            <p>{section.experience}</p>
+                        </div>
+                      </div>
+                  </div>
+              {/if}
+          {/if}
+            {#if section.type === 'contact'}
+              {#if i === index}
+                    <div class="content" in:fade={{duration: 400}} out:fade={{duration: 500}}>
+                        <h1 class='title-content'>{section.title}</h1>
+                        <p>{section.content}</p>
+                        <div class="contact-methods">
+                            {#each section.contactMethods as method}
+                                <div class="contact-method">
+                                    <a href={method.link} title={method.name}><i class={method.icon}></i> {method.name}</a>
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+                {/if}
+              {:else if section.type != 'title'}
+                {#if i === index}
+                    <div class="content" in:fade={{duration: 400}} out:fade={{duration: 500}}>
+                        <div class="project-description">
+                            <h1 class='title-content'>{section.title}</h1>
+                            <p>{section.content}</p>
+                            <p>{section.technologies}</p>
+                            <a href={section.link} target="_blank" rel="noopener noreferrer">Check out My Project Here!</a>
+                            <br>
+                            {#if section.imageUrl}
+                                <img src={section.imageUrl} alt={section.title} class="project-image"/>
+                            {/if}
+                        </div>
+                    </div>
+                {/if}
+            {/if}
+        </section>
+        {/each}
+    </div>
+  </Scroller>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    @import 'https://fonts.googleapis.com/css?family=Shrikhand|Yantramanav';
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+  
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideInLeft {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+    @keyframes slideInBottom {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+  
+    @keyframes slideInFromLeft {
+      from { transform: translateX(-100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  
+    @keyframes slideInFromTop {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  
+    :global(body) {
+      background: linear-gradient(90deg, #fad0c4, #ffd1ff);
+    }
+    .about-me-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+      animation: slideInBottom 0.75s ease-out forwards;
+    }
+
+    .name{
+      animation: slideInFromTop 0.75s ease-out forwards;
+    }
+
+    .about-me-column {
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      border: black 2px solid;
+    }
+    .contact-description {
+      background-color: rgba(255, 255, 255, 0.8);
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .contact-methods {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .contact-method a {
+      text-decoration: none;
+      color: #007bff; 
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .contact-method a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+    
+    .subhead {
+      animation: slideInFromTop 0.5s ease-out forwards;
+    }
+
+    section {
+      font-family: 'Monaco', sans-serif;
+      height: 100vh;
+      text-align: center;
+      max-width: 100%; 
+      color: black;
+      padding: 2em;
+      margin: 0 0 0 0;
+      border-radius: 6px;
+    }
+  
+    .scrollable-section {
+      position: sticky;
+      top: 0;
+    }
+
+    .project-image {
+      max-height: 50vh;
+    }
+  
+    .foreground {
+      width: 100%;
+      margin: 0 auto;
+      height: auto;
+      position: relative;
+    }
+  
+    .hero h1 {
+      font-size: 3em;
+    }
+
+    .hero{
+      color: black;
+    }
+  
+    .content {
+      height: 93vh;
+      width: 95vw;
+      position: absolute;
+      border: black 2px solid;
+      border-radius: 16px;
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+  
+    .content h1 {
+      font-size: 2em;
+      margin-top: 20px;
+    }
+  
+    .content h1 {
+      font-size: 2em;
+      margin-top: 20px;
+    }
+
+    .content img{
+      padding: 10px;
+    }
+    .me {
+      height: 40vh;
+    }
+
+    .container {
+      height: 95vh;
+    }
+    h1 {
+      font-family: 'Monaco', sans-serif;
+      font-size: 3em; 
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .title-content{
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    .dropdown {
+      position: fixed;
+      top: 0;
+      right: 0;
+      padding: 20px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 10px;
+      padding: 40px;
+      justify-items: center;
+      align-items: center;
+    }
+
+    .contact-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      margin: 5px; 
+      width: calc(50% - 10px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-link {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  
+</style>
+  
